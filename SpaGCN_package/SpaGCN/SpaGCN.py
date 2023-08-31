@@ -21,7 +21,7 @@ class SpaGCN(object):
     def set_l(self, l):
         self.l=l
 
-    def train(self,adata,adj, 
+    def train(self,adata,adj, embed,
             num_pcs=50, 
             lr=0.005,
             max_epochs=2000,
@@ -46,13 +46,13 @@ class SpaGCN(object):
         self.res=res
         self.tol=tol
         assert adata.shape[0]==adj.shape[0]==adj.shape[1]
-        pca = PCA(n_components=self.num_pcs)
-        if issparse(adata.X):
-            pca.fit(adata.X.A)
-            embed=pca.transform(adata.X.A)
-        else:
-            pca.fit(adata.X)
-            embed=pca.transform(adata.X)
+        # pca = PCA(n_components=self.num_pcs)
+        # if issparse(adata.X):
+        #     pca.fit(adata.X.A)
+        #     embed=pca.transform(adata.X.A)
+        # else:
+        #     pca.fit(adata.X)
+        #     embed=pca.transform(adata.X)
         ###------------------------------------------###
         if self.l is None:
             raise ValueError('l should not be set before fitting the model!')
