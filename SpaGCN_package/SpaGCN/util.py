@@ -342,7 +342,7 @@ def find_meta_gene(input_adata,
     return meta_name, adata.obs["meta"].tolist()
 
 
-def search_res(adata, adj, l, target_num, start=0.4, step=0.1, tol=5e-3, lr=0.05, max_epochs=10, r_seed=100, t_seed=100, n_seed=100, max_run=10):
+def search_res(adata, adj,embed, l, target_num, start=0.4, step=0.1, tol=5e-3, lr=0.05, max_epochs=10, r_seed=100, t_seed=100, n_seed=100, max_run=10):
     random.seed(r_seed)
     torch.manual_seed(t_seed)
     np.random.seed(n_seed)
