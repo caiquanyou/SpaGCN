@@ -342,7 +342,7 @@ def find_meta_gene(input_adata,
     return meta_name, adata.obs["meta"].tolist()
 
 
-def search_res(adata, adj, l, target_num, start=0.4, step=0.1, tol=5e-3, lr=0.05, max_epochs=10, r_seed=100, t_seed=100, n_seed=100, max_run=10):
+def search_res(adata, adj,embed, l, target_num, start=0.4, step=0.1, tol=5e-3, lr=0.05, max_epochs=10, r_seed=100, t_seed=100, n_seed=100, max_run=10):
     random.seed(r_seed)
     torch.manual_seed(t_seed)
     np.random.seed(n_seed)
@@ -350,7 +350,7 @@ def search_res(adata, adj, l, target_num, start=0.4, step=0.1, tol=5e-3, lr=0.05
     print("Start at res = ", res, "step = ", step)
     clf=SpaGCN()
     clf.set_l(l)
-    clf.train(adata,adj,init_spa=True,init="louvain",res=res, tol=tol, lr=lr, max_epochs=max_epochs)
+    clf.train(adata,adj,embed,init_spa=True,init="louvain",res=res, tol=tol, lr=lr, max_epochs=max_epochs)
     y_pred, _=clf.predict()
     old_num=len(set(y_pred))
     print("Res = ", res, "Num of clusters = ", old_num)
@@ -362,7 +362,7 @@ def search_res(adata, adj, l, target_num, start=0.4, step=0.1, tol=5e-3, lr=0.05
         old_sign=1 if (old_num<target_num) else -1
         clf=SpaGCN()
         clf.set_l(l)
-        clf.train(adata,adj,init_spa=True,init="louvain",res=res+step*old_sign, tol=tol, lr=lr, max_epochs=max_epochs)
+        clf.train(adata,adj,embed,init_spa=True,init="louvain",res=res+step*old_sign, tol=tol, lr=lr, max_epochs=max_epochs)
         y_pred, _=clf.predict()
         new_num=len(set(y_pred))
         print("Res = ", res+step*old_sign, "Num of clusters = ", new_num)
